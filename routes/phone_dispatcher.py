@@ -68,6 +68,8 @@ def sum_phone_connected(id):
 
 @phone_blueprint.route("/api/phone_connected/<string:acc_phon1>/<string:acc_phon2>", methods=['DELETE'])
 def if_phone_connected(acc_phon1, acc_phon2):
+    if acc_phon1 == acc_phon2:
+        return jsonify({'result': False}), 405
     try:
         repo = PhoneTrackerRepository(neo4j_driver)
         result = repo.if_phons_is_connected(acc_phon1, acc_phon2)
