@@ -71,10 +71,8 @@ class PhoneTrackerRepository:
                     RETURN length(path)
                     """
             )
-            print(result)
-            print(result.single())
-            print(result.single()['details_id'])
-            return result.single()['length']
+
+            return result.data()
 
 
     def get_phon_by_signal_strength_dbm(self):
@@ -91,10 +89,8 @@ class PhoneTrackerRepository:
                 RETURN path
                 """
             )
-            print(result.single()['path'])
-            json_string = jsonpickle.encode(result.single()['path'])
 
-            return json_string
+            return result.data()
 
 
     def get_num_phon_is_connected(self,id):
@@ -108,7 +104,7 @@ class PhoneTrackerRepository:
                 'account_id': id
             })
 
-            return result.single()['count']
+            return result.data()
 
 
     def if_phons_is_connected(self,ac_t_id,ac_f_id):
@@ -122,4 +118,4 @@ class PhoneTrackerRepository:
                 'ac_t_id': ac_t_id,
                 'ac_f_id': ac_f_id
             })
-            return result.single()['e'], result.single()['s']
+            return result.data()
