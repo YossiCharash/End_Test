@@ -109,3 +109,17 @@ class PhoneTrackerRepository:
             })
 
             return result.single()['count']
+
+
+    def if_phons_is_connected(self,ac_t_id,ac_f_id):
+        with self.driver.session() as session:
+            query = """
+            MATCH(s:Device{account_id:$ac_t_id})
+            <-[:CONNECTED]->
+            (e:Device{account_id:$ac_f_id}) RETURN e,s
+            """
+            result = session.run(query, {
+                'ac_t_id': ac_t_id,
+                'ac_f_id': ac_f_id
+            })
+            return result.single()['e'], result.single()['s']

@@ -54,7 +54,7 @@ def by_signal_strength_dbm():
 
 
 @phone_blueprint.route("/api/phone_connected/<string:id>", methods=['GET'])
-def phone_connected(id):
+def sum_phone_connected(id):
     try:
         repo = PhoneTrackerRepository(neo4j_driver)
         result = repo.get_num_phon_is_connected(id)
@@ -66,5 +66,14 @@ def phone_connected(id):
         return jsonify({'error': str(e)}), 500
 
 
+@phone_blueprint.route("/api/phone_connected/<string:acc_phon1>/<string:acc_phon2>", methods=['DELETE'])
+def if_phone_connected(acc_phon1, acc_phon2):
+    try:
+        repo = PhoneTrackerRepository(neo4j_driver)
+        result = repo.if_phons_is_connected(acc_phon1, acc_phon2)
 
+        return jsonify({'result': result}), 200
 
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
